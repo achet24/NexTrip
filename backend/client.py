@@ -11,7 +11,7 @@ class client:
             client_id= os.getenv("CLIENT_KEY"),
             client_secret= os.getenv("CLIENT_SECRET")
         )
-    
+    xs
     def search_flights(self, origin, destination, departure_date, adults = 1, max_results = 7):
         try:
             response = self.amadeus.shopping.flight_offers_search.get(
