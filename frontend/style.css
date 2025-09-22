@@ -1,5 +1,7 @@
 .HomeFirst{
     background-color: lightblue;
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -7,4 +9,3 @@ body {
     font-optical-sizing: auto;
     font-style: normal;
 }
-
