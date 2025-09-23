@@ -1,10 +1,22 @@
 import os
-from amadeus import Client, Location, ResponseError
-from dotenv import load_dotenv
+from client import userClient
 import requests
 
 
-load_dotenv()
+user = userClient()
+
+flights = user.getFlightOffersSearch(
+    origin = "JFK",
+    destination = "LHR", 
+    date = "2025-12-10",
+    adults = 1, 
+    max_results = 1
+
+)
+print(flights)
+
+# YAY! It works
+
 
 # amadeus = Client(
 #     client_id = os.getenv("CLIENT_KEY"),

@@ -1,22 +1,24 @@
 # This class stores the users information for long term purposes.
 import os
 from dotenv import load_dotenv
-from amadeus import Client, ResponseError
+from amadeus import ResponseError
 import requests
 
 load_dotenv()
 
 
-class Client:
+class userClient:
     def __init__(self):
-        self.client_id = os.getenv("CLIENT_KEY"),
+        self.client_id = os.getenv("CLIENT_KEY")
         self.client_secret = os.getenv("CLIENT_SECRET")
+        self.access_token = None
 
     
-
 # Code below works, sad that SDK didnt work
     def generateAccessToken(self):
         url = "https://test.api.amadeus.com/v1/security/oauth2/token"
+        
+        # Data being sent or recieved
         payload = {
             "grant_type": "client_credentials",
             "client_id": os.getenv("CLIENT_KEY"),
@@ -36,13 +38,15 @@ class Client:
 
 
 
-    def getFlightOffersSearch(origin, destination, date, adults, max_results):
+    def getFlightOffersSearch(self, origin, destination, date, adults, max_results):
         
         # generate token whenever needed
         if not self.access_token:
             self.generateAccessToken()
 
         url = "https://test.api.amadeus.com/v2/shopping/flight-offers"
+        
+        
         payload = {
             "currencyCode": "USD",
             "originDestinations": [
@@ -76,26 +80,31 @@ class Client:
             return data
         else:
             print("Error:", response.status_code, response.text)
+            return None
 
-        try:
-            response = amadeus.shopping.flight_offers_search.get(
-                originLocationCode=origin,
-                destinationLocationCode=destination,
-                departureDate=date,
-                adults=adults,
-                max=max_results
-            )
-            flight_details = response.data  # fixed typo
-            if not flight_details:
-                print("No flights found for the given criteria.")
-            else:
-                return flight_details
-                # for i, flight in enumerate(flight_details, start=0):
-                #     print(f"\nOption {i}:")
-                #     print(json.dumps(flight, indent=2))
-        except ResponseError as error:
-            print("Status Code:", error.response.status_code)
-            print("Error Body:", error.response.body)
+        
+        
+        
+# Below code is for SDK
+        # try:
+        #     response = amadeus.shopping.flight_offers_search.get(
+        #         originLocationCode=origin,
+        #         destinationLocationCode=destination,
+        #         departureDate=date,
+        #         adults=adults,
+        #         max=max_results
+        #     )
+        #     flight_details = response.data  # fixed typo
+        #     if not flight_details:
+        #         print("No flights found for the given criteria.")
+        #     else:
+        #         return self.flight_details
+        #         # for i, flight in enumerate(flight_details, start=0):
+        #         #     print(f"\nOption {i}:")
+        #         #     print(json.dumps(flight, indent=2))
+        # except ResponseError as error:
+        #     print("Status Code:", error.response.status_code)
+        #     print("Error Body:", error.response.body)
 
 
 # class client:
